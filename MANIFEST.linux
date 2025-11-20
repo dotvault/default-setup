@@ -1,0 +1,35 @@
+# vim: ft=txt
+
+# Syntax: <the_repo_file>|<operation>|<destination>|[new_filename]
+#
+# NOTE: Use '|' as the delimiter.
+#
+# - appname         : required, the name of application.
+# - source_suffix   : required, relative path, relative to the repository root ($SCRIPT_DIR)
+# - file/directory  : required, objects to operate on, a file or directory or relative path
+# - operation       : required, copy/symlink/exclude
+# - target_suffix   : optional, relative path, relative to your $HOME directory
+
+# NOTE: You must ensure that the three fields can be concatenated into two real, existing paths.
+##
+## Use `clang-format` as an example
+## sourcepath: $SCRIPT_DIR/apps/coding/.clang-format
+## targetpath: $HOME/.clang-format
+##
+## The execution flow of these scripts is as follows:
+##
+##    deploy.sh: $REPO -> $HOME
+## - sourcePath: $SCRIPT_DIR/$source_suffix/$file_or_dir
+## - targetPath: $HOME/$target_suffix/$file_or_dir
+#
+## sync_copy.sh: $HOME -> $REPO
+## - sourcePath: $HOME/$target_suffix/$file_or_dir
+## - targetPath: $SCRIPT_DIR/$source_suffix/$file_or_dir
+
+
+xdg-user-dirs    | xdg-user-dirs | user-dirs.dirs    | copy | .config
+xdg-user-dirs    | xdg-user-dirs | user-dirs.locale  | copy | .config
+
+fontconfig       | | fontconfig/            | copy | .config
+pacman           | | pacman/                | copy | .config
+plasma-workspace | | plasma-workspace/env/  | copy | .config
